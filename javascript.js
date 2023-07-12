@@ -66,3 +66,73 @@ for(i=1; i<5; i++){
     }
 }   
 }
+//if we click on answer box
+    //if we are playing
+        //correct?
+            //yes
+                //increase score
+                //show correct box for 1sec
+                //generate new Q&A
+            //no
+                //show try again box for 1sec
+
+
+//functions
+
+//start counter
+
+function startCountdown(){
+    action = setInterval(function(){
+        timeremaining -= 1;
+        document.getElementById("timeremainingvalue").innerHTML = timeremaining;
+        if(timeremaining == 0){// game over
+            stopCountdown();
+            show("gameOver");
+         document.getElementById("gameOver").innerHTML = "<p>Game over!</p><p>Your score is " + score + ".</p>";   
+            hide("timeremaining");
+            hide("correct");
+            hide("wrong");
+            playing = false;
+            document.getElementById("startreset").innerHTML = "Start Game";
+        }
+    }, 1000);    
+}
+
+
+function stopCountdown(){
+    clearInterval(action);   
+}
+
+
+function hide(Id){
+    document.getElementById(Id).style.display = "none";   
+}
+
+
+function show(Id){
+    document.getElementById(Id).style.display = "block";   
+}
+
+
+function generateQA(){
+    var x = 1+ Math.round(9*Math.random());
+    var y = 1+ Math.round(9*Math.random());
+    correctAnswer = x*y;
+    document.getElementById("question").innerHTML = x + "x" + y;
+    var correctPosition = 1+ Math.round(3*Math.random());
+    document.getElementById("box"+correctPosition).innerHTML = correctAnswer; 
+    
+    
+    var answers = [correctAnswer];
+    
+    for(i=1; i<5; i++){
+        if(i != correctPosition) {
+            var wrongAnswer;
+            do{
+                wrongAnswer = (1+ Math.round(9*Math.random()))*(1+ Math.round(9*Math.random())); //a wrong answer
+            }while(answers.indexOf(wrongAnswer)>-1)
+            document.getElementById("box"+i).innerHTML = wrongAnswer;
+            answers.push(wrongAnswer);
+        }
+    }
+}
